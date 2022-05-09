@@ -9,19 +9,20 @@ public class CollisionTracker {
         if (isInRange(p1, gball.getXPosition(), gball.getYPosition(), gball.getDiameter())) {
             System.out.println("collision: " + calcVector(p1, gball, 0) + ", " + calcVector(p1, gball, 1));
             //set direction and speed of the thing
-            gball.setForce(calcVector(p1, gball, 0), calcVector(p1, gball, 1), 0.0006);
+            gball.setForce(calcVector(p1, gball, 0), calcVector(p1, gball, 1), 0.0001);
         }
         if (isInRange(p2, gball.getXPosition(), gball.getYPosition(), gball.getDiameter())) {
             System.out.println("collision: " + calcVector(p2, gball, 0) + ", " + calcVector(p2, gball, 1));
             //set direction and speed of the thing
-            gball.setForce(calcVector(p2, gball, 0), calcVector(p2, gball, 1), 0.0006);
+            gball.setForce(calcVector(p2, gball, 0), calcVector(p2, gball, 1), 0.0001);
         }
         // ball collides with magnets
         for (Magnet a: magnets) {
-            if (isInRange(p1, a.getXPosition(), a.getYPosition(), a.getDiameter())) {
+            if (isInRange(gball, a.getXPosition(), a.getYPosition(), a.getDiameter())) {
                 System.out.println("p1 is colliding with magnet");
             }
         }
+        //player collision with magnet
     }
 
     private double calcVector(Player player, GameBall gameBall, int which) {

@@ -1,6 +1,7 @@
 package base;
 
 import static base.Main.arena;
+import static base.Main.deltaTime;
 
 public class GameBall extends Ball {
 
@@ -22,14 +23,10 @@ public class GameBall extends Ball {
 
     public void move() {
         //bounce off the wall
-        if (getXPosition() <= 0 || getXPosition() >= 800) setDx(-getDx());
-        if (getYPosition() <= 0 || getYPosition() >= 500) setDy(-getDy());
-        super.move(this.dx*this.speed, this.dy*this.speed);
-        //this.speed -= 0.00000006;
-//        if (speed == 0) {
-//            setDx(0);
-//            setDy(0);
-//        }
+        if (getXPosition()-15 <= 0 || getXPosition()+15 >= 800) setDx(-getDx());
+        if (getYPosition()-15 <= 0 || getYPosition()+15 >= 500) setDy(-getDy());
+        super.move(this.dx*this.speed*deltaTime, this.dy*this.speed*deltaTime);
+        this.speed /= 1.000001;
     }
 
     public void setForce(double dx, double dy, double speed) {

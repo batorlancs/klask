@@ -1,7 +1,6 @@
 package base;
 
-import static base.Main.arena;
-import static base.Main.moveSpeed;
+import static base.Main.*;
 
 public class Player {
 
@@ -28,7 +27,7 @@ public class Player {
     }
 
     public void move() {
-        this.move(this.dx*moveSpeed, this.dy*moveSpeed);
+        this.move(this.dx*moveSpeed*deltaTime, this.dy*moveSpeed*deltaTime);
     }
 
     public double getXPosition() {
