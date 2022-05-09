@@ -8,9 +8,10 @@ public class Player {
     private Ball ball;
     private Rectangle rec;
 
-    public double speed = 0;
-    public double dx = 0;
-    public double dy = 0;
+    private double speed = 0;
+    public double diameter = 40;
+    private double dx = 0;
+    private double dy = 0;
 
     public Player(int x, int y, String col) {
         ball = new Ball(x, y, 40, col);
@@ -37,4 +38,30 @@ public class Player {
     public double getYPosition() {
         return ball.getYPosition();
     }
+
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+
+    public double getDx() {
+        return this.dx;
+    }
+
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
+
+    public double getDy() {
+        return this.dy;
+    }
+
+    public double getSpeed() {
+        return this.speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+
 }
