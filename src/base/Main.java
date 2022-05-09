@@ -1,64 +1,96 @@
 package base;
 
+import java.awt.Color;
+
 public class Main {
 
     public static GameArena arena;
+    public static KlaskArena klaskArena;
     public static CollisionTracker collisionTracker;
-    public static double moveSpeed = 0.0006;
+    public static MovementManager movementManager;
+    public static double moveSpeed = 0.00006;
+    public static double deltaTime = 1;
     public static Player p1;
     public static Player p2;
     public static GameBall gball;
     public static Magnet[] magnets = new Magnet[3];
+    public static ScoreBoard scoreBoard;
+    public static Ball hole1;
+    public static Ball hole2;
 
+    public static final int freezeTime = 100000;
+    public static boolean frozen = false;
+    public static double frozenCount = 0;
+    public static int whoWon = 0;
 
     public static void main(String[] args) {
         Main main = new Main();
         main.resetObjects();
 
+        double beginTime = Time.getTime();
+        double endTime;
+
         while (true) {
-            System.out.println("breh");
-            collisionTracker.checkCollisions();
-            //set direction for players, balls, and magnets
-            main.setMoves();
-            main.makeMoves();
-            //move them with their current speed
+            System.out.println("game is running");
+
+            if (!frozen) {
+                collisionTracker.checkCollisions(); // checks all the collisions and calls functions when collision happens
+                movementManager.setMoves(); // calculates the moves of all objects for this frame
+                movementManager.makeMoves(); // makes the moves for all objects
+            }
+
+            // deltatime for smooth movement and realistic time
+            endTime = Time.getTime();
+            deltaTime = (endTime - beginTime) / 100;
+            beginTime = endTime;
+
+            if (frozenCount > 0) {
+                frozenCount -= deltaTime/100;
+            } else if (frozen) {
+                frozen = false;
+                wonRound(whoWon);
+                whoWon = 0;
+            }
+        }
+    }
+
+    public static void wonRound(int who) {
+        scoreBoard.wonPoint(who);
+        resetRound();
+    }
+
+    public static void resetRound() {
+        p1.removeFromArena();
+        p2.removeFromArena();
+        arena.removeBall(gball);
+        p1 = new Player(500, 200, "BLACK2", 1);
+        p2 = new Player(200, 200, "BLACK2", 2);
+        gball = new GameBall(250, 250, 30, "YELLOW1");
+        for (int i = 0; i < 3; i++) {
+            arena.removeBall(magnets[i]);
+            magnets[i] = new Magnet(400, 175+i*100, 20, "WHITE1");
         }
     }
     
     public void resetObjects() {
         arena = new GameArena(800, 500);
+        klaskArena = new KlaskArena(50, 100, 700, 350, "BLUE1", -4);
+        hole1 = new Ball(700, 280, 60, "BLACK1");
+        hole2 = new Ball(100, 280, 60, "BLACK1");
         collisionTracker = new CollisionTracker();
-        p1 = new Player(100, 100, "ORANGE");
-        p2 = new Player(500, 100, "BLUE");
-        gball = new GameBall(250, 250, 30, "WHITE");
+        movementManager = new MovementManager();
+        scoreBoard = new ScoreBoard("0 : 0", 40, 355, 60, "BLACK1");
+        p1 = new Player(500, 200, "BLACK2", 1);
+        p2 = new Player(200, 200, "BLACK2", 2);
+        gball = new GameBall(250, 250, 30, "YELLOW1");
         for (int i = 0; i < 3; i++) {
-            magnets[i] = new Magnet(100, 100+i*100, 15, "GRAY");
+            magnets[i] = new Magnet(400, 175+i*100, 20, "WHITE1");
         }
     }
-    
-    public void setMoves() {
-        // player 1
-        if (arena.upPressed()) p1.setDy(-1);
-        if (arena.downPressed()) p1.setDy(1);
-        if (!arena.upPressed() && !arena.downPressed()) p1.setDy(0);
-        if (arena.leftPressed()) p1.setDx(-1);
-        if (arena.rightPressed()) p1.setDx(1);
-        if (!arena.leftPressed() && !arena.rightPressed()) p1.setDx(0);
-        // player 2
-        if (arena.wPressed()) p2.setDy(-1);
-        if (arena.sPressed()) p2.setDy(1);
-        if (!arena.wPressed() && !arena.sPressed()) p2.setDy(0);
-        if (arena.aPressed()) p2.setDx(-1);
-        if (arena.dPressed()) p2.setDx(1);
-        if (!arena.aPressed() && !arena.dPressed()) p2.setDx(0);
-        // ball
-        // if there is a collision with player --> gets their speed and moves
-    }
 
-    public void makeMoves() {
-        gball.move();
-        p1.move();
-        p2.move();
+    public static void freezeGame() {
+        frozen = true;
+        frozenCount = freezeTime;
     }
 
 }

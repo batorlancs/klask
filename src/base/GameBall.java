@@ -1,6 +1,6 @@
 package base;
 
-import static base.Main.arena;
+import static base.Main.*;
 
 public class GameBall extends Ball {
 
@@ -8,6 +8,7 @@ public class GameBall extends Ball {
     private double diameter = 0;
     private double dx = 0;
     private double dy = 0;
+    private int isInHole = 0;
 
     public GameBall(double x, double y, double diameter, String col) {
         super(x, y, diameter, col);
@@ -22,14 +23,23 @@ public class GameBall extends Ball {
 
     public void move() {
         //bounce off the wall
-        if (getXPosition() <= 0 || getXPosition() >= 800) setDx(-getDx());
-        if (getYPosition() <= 0 || getYPosition() >= 500) setDy(-getDy());
-        super.move(this.dx*this.speed, this.dy*this.speed);
-        //this.speed -= 0.00000006;
-//        if (speed == 0) {
-//            setDx(0);
-//            setDy(0);
-//        }
+//        double newdx = this.dx*this.speed*deltaTime;
+//        double newdy = this.dy*this.speed*deltaTime;
+        if (isInHole != 0) {
+            if (isInHole == 1) {
+
+            }
+            //super.move(this.dx*this.speed*deltaTime, this.dy*this.speed*deltaTime);
+            this.speed /= 1.000001;
+        }
+        else {
+            if (getXPosition()-15 <= klaskArena.getXPosition()) setDx(Math.abs(getDx()));
+            if (getXPosition()+15 >= klaskArena.getEndXPosition()) setDx(-Math.abs(getDx()));
+            if (getYPosition()-15 <= klaskArena.getYPosition()) setDy(Math.abs(getDx()));
+            if (getYPosition()+15 >= klaskArena.getEndYPosition()) setDy(-Math.abs(getDy()));
+            super.move(this.dx*this.speed*deltaTime, this.dy*this.speed*deltaTime);
+            this.speed /= 1.000001;
+        }
     }
 
     public void setForce(double dx, double dy, double speed) {
@@ -42,11 +52,9 @@ public class GameBall extends Ball {
         return this.diameter;
     }
 
-
     public void setDx(double dx) {
         this.dx = dx;
     }
-
     public double getDx() {
         return this.dx;
     }
@@ -54,7 +62,6 @@ public class GameBall extends Ball {
     public void setDy(double dy) {
         this.dy = dy;
     }
-
     public double getDy() {
         return this.dy;
     }
@@ -62,9 +69,11 @@ public class GameBall extends Ball {
     public double getSpeed() {
         return this.speed;
     }
-
     public void setSpeed(double speed) {
         this.speed = speed;
     }
+
+    public int isInHole() { return this.isInHole; }
+    public void setInHole(int x) { this.isInHole = x; }
 
 }
