@@ -7,7 +7,6 @@ import java.awt.image.*;
 import java.awt.event.*;
 import java.util.*;
 import java.lang.Class;
-import java.lang.reflect.*;
 
 /**
  * This class provides a simple window in which grahical objects can be drawn.
@@ -88,6 +87,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			frame.setSize(width, height);
 			frame.setResizable(false);
 			frame.setBackground(Color.BLACK);
+			frame.setLocationRelativeTo(null);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setContentPane(this);
 			frame.setVisible(true);
@@ -118,6 +118,8 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		colours.put("WHITE2", new Color(193, 193, 193));
 		colours.put("YELLOW1", new Color(253, 238, 139));
 		colours.put("GRAY1", new Color(127, 127, 127));
+		colours.put("GREEN1", new Color(172, 251, 137));
+		colours.put("RED1", new Color(255, 111, 111));
 
 		// Setup graphics rendering hints for quality
 		renderingHints = new HashMap<>();
@@ -580,8 +582,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	}
 
 
- 	public void keyTyped(KeyEvent e)
-	{
+ 	public void keyTyped(KeyEvent e) {
 	}
 
 

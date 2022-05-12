@@ -1,12 +1,18 @@
 package base;
 
+import org.w3c.dom.css.Rect;
+
 import static base.Main.arena;
 
 public class KlaskArena extends Rectangle {
 
-//    public static Ball hole2 = new Ball(100, 280, 60, "BLACK1", -1);
-//    public static Ball hole1 = new Ball(700, 280, 60, "BLACK1", -1);
+    // *
+    // GRAPHICAL ARENA
+    // *
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public KlaskArena(double x, double y, double w, double h, String col, int layer) {
         super(x, y, w, h, col, layer);
         arena.addRectangle(this);
@@ -16,10 +22,10 @@ public class KlaskArena extends Rectangle {
         arena.addRectangle(new Rectangle(x-20, y+h, w+40, 20, "BLACK1", -2));
         arena.addRectangle(new Rectangle(x+w, y-20, 20, h+40, "BLACK1", -2));
         // background
-        arena.addRectangle(new Rectangle(0, 0, 800, 80, "WHITE2", -1));
-        arena.addRectangle(new Rectangle(0, 0, 30, 500, "WHITE2", -1));
-        arena.addRectangle(new Rectangle(0, y+h+20, 800, 30, "WHITE2", -1));
-        arena.addRectangle(new Rectangle(x+w+20, 0, 30, 500, "WHITE2", -1));
+        arena.addRectangle(new Rectangle(0, 0, 800, 80, "BLACK1.5", -1));
+        arena.addRectangle(new Rectangle(0, 0, 30, 500, "BLACK1.5", -1));
+        arena.addRectangle(new Rectangle(0, y+h+20, 800, 30, "BLACK1.5", -1));
+        arena.addRectangle(new Rectangle(x+w+20, 0, 30, 500, "BLACK1.5", -1));
         // create design on board
         arena.addBall(new Ball(50, 450, 200, "BLUE2", -3));
         arena.addBall(new Ball(50, 100, 200, "BLUE2", -3));
@@ -32,16 +38,17 @@ public class KlaskArena extends Rectangle {
         arena.addBall(new Ball(701, 279, 65, "GRAY1", -2));
         arena.addBall(new Ball(99, 279, 65, "GRAY1", -2));
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //---------------------------------------------------------------------------------------------------------------
+    // getters, setters
+    //---------------------------------------------------------------------------------------------------------------
     public double getEndXPosition() {
         return getXPosition()+getWidth();
     }
-
     public double getEndYPosition() {
         return getYPosition()+getHeight();
     }
-
     public double getMidXPosition() { return (getEndXPosition() - getXPosition()) / 2 + getXPosition() ; }
-
-
 }
