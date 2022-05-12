@@ -1,13 +1,19 @@
 package base;
 
 import static base.Main.arena;
-import static base.Main.scoreBoard;
 
 public class ScoreBoard extends Text {
 
-    private int points1 = 0;
-    private int points2 = 0;
+    // *
+    // SCORE BOARD ABOVE THE ARENA
+    // *
 
+    private int points1 = 0; // points of player 1
+    private int points2 = 0; // points of player 2
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public ScoreBoard(String text, int size, double x, double y, String col, int layer) {
         super(text, size, x, y, col, layer);
         arena.addText(this);
@@ -17,7 +23,12 @@ public class ScoreBoard extends Text {
         super(text, size, x, y, col);
         arena.addText(this);
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //---------------------------------------------------------------------------------------------------------------
+    // add one point to the winner who = 1 -> player 1, who = 2 -> player2
+    //---------------------------------------------------------------------------------------------------------------
     public void wonPoint(int who) {
         if (who == 1) {
             points1++;
@@ -31,6 +42,9 @@ public class ScoreBoard extends Text {
         }
     }
 
+    //---------------------------------------------------------------------------------------------------------------
+    // refresh the text
+    //---------------------------------------------------------------------------------------------------------------
     private void updateScore() {
         this.setText(points2 + " : " + points1);
     }

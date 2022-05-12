@@ -4,9 +4,13 @@ import static base.Main.arena;
 
 public class KlaskArena extends Rectangle {
 
-//    public static Ball hole2 = new Ball(100, 280, 60, "BLACK1", -1);
-//    public static Ball hole1 = new Ball(700, 280, 60, "BLACK1", -1);
+    // *
+    // GRAPHICAL ARENA
+    // *
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public KlaskArena(double x, double y, double w, double h, String col, int layer) {
         super(x, y, w, h, col, layer);
         arena.addRectangle(this);
@@ -32,16 +36,17 @@ public class KlaskArena extends Rectangle {
         arena.addBall(new Ball(701, 279, 65, "GRAY1", -2));
         arena.addBall(new Ball(99, 279, 65, "GRAY1", -2));
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //---------------------------------------------------------------------------------------------------------------
+    // getters, setters
+    //---------------------------------------------------------------------------------------------------------------
     public double getEndXPosition() {
         return getXPosition()+getWidth();
     }
-
     public double getEndYPosition() {
         return getYPosition()+getHeight();
     }
-
     public double getMidXPosition() { return (getEndXPosition() - getXPosition()) / 2 + getXPosition() ; }
-
-
 }

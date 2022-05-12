@@ -4,12 +4,19 @@ import static base.Main.*;
 
 public class GameBall extends Ball {
 
+    // *
+    // GAME BALL
+    // *
+
     private double speed = 0;
     private double diameter = 0;
-    private double dx = 0;
-    private double dy = 0;
-    private int isInHole = 0;
+    private double dx = 0; // direction X
+    private double dy = 0; // direction Y
+    private int isInHole = 0; // is it in hole
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public GameBall(double x, double y, double diameter, String col) {
         super(x, y, diameter, col);
         this.diameter = diameter;
@@ -20,11 +27,13 @@ public class GameBall extends Ball {
         super(x, y, diameter, col, layer);
         arena.addBall(this);
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //---------------------------------------------------------------------------------------------------------------
+    // make movement
+    //---------------------------------------------------------------------------------------------------------------
     public void move() {
-        //bounce off the wall
-//        double newdx = this.dx*this.speed*deltaTime;
-//        double newdy = this.dy*this.speed*deltaTime;
         if (isInHole != 0) {
             if (isInHole == 1) {
 
@@ -42,12 +51,18 @@ public class GameBall extends Ball {
         }
     }
 
+    //---------------------------------------------------------------------------------------------------------------
+    // set direction and speed of object
+    //---------------------------------------------------------------------------------------------------------------
     public void setForce(double dx, double dy, double speed) {
         this.dx = dx;
         this.dy = dy;
         this.speed = speed;
     }
 
+    //---------------------------------------------------------------------------------------------------------------
+    // getters, setters
+    //---------------------------------------------------------------------------------------------------------------
     public double getDiameter() {
         return this.diameter;
     }
