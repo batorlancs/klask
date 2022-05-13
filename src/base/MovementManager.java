@@ -24,7 +24,7 @@ public class MovementManager {
             p1.setDx(p1.getDx() * 0.75);
             p1.setDy(p1.getDy() * 0.75);
         }
-        if (isMoving(1)) p1.setSpeed(moveSpeed);
+        if (isMoving(1)) p1.setSpeed(moveSpeed); //update speed
         else p1.setSpeed(0);
         // player 2 -----------------------------------------------------------------
         if (arena.wPressed()) p2.setDy(-1); // up
