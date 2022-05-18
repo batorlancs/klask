@@ -1,9 +1,5 @@
 package base;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Random;
 
 public class Main {
@@ -22,8 +18,8 @@ public class Main {
     public static GameBall gball; // the yellow ball to score in the goal
     public static Magnet[] magnets = new Magnet[3]; // the white magnets attaching to players
     public static ScoreBoard scoreBoard; // the text shown above the arena
-    public static Text infoTextR; // right upper side of the screen shows messages
-    public static Text infoTextL; // left upper side of the screen shows messages
+    public static ITextManager iTextManager; // upper left and right information text manager
+
     public static Ball hole1; // goal of player 1
     public static Ball hole2; // goal of player 2
 
@@ -63,9 +59,14 @@ public class Main {
             // freeze game count down
             if (frozenCount > 0) {
                 frozenCount -= deltaTime/100;
+            } else if (frozenCount == -1) {
+                if (arena.enterPressed()) frozenCount = 0;
             } else if (frozen) {
                 frozen = false;
-                if (whoWon == 0) resetGame();
+                if (whoWon == 0) {
+                    resetGame();
+                    iTextManager.resetVisible(false);
+                }
                 else wonRound(whoWon);
                 whoWon = 0;
             }
@@ -87,6 +88,8 @@ public class Main {
     // reset all the objects for next round
     //---------------------------------------------------------------------------------------------------------------
     public static void resetRound(int who) {
+        // reset info texts
+        iTextManager.clearRound();
         // remove objects from arena
         p1.removeFromArena();
         p2.removeFromArena();
@@ -114,8 +117,7 @@ public class Main {
         movementManager = new MovementManager();
         resetRound(0);
         scoreBoard.reset();
-        infoTextR.setText("");
-        infoTextL.setText("");
+        iTextManager.reset();
     }
 
     //---------------------------------------------------------------------------------------------------------------
@@ -126,9 +128,9 @@ public class Main {
         arena = new GameArena(800, 500);
         collisionTracker = new CollisionTracker();
         movementManager = new MovementManager();
+        iTextManager = new ITextManager();
         scoreBoard = new ScoreBoard("0 : 0", 40, 355, 60, "WHITE2", 1);
-        infoTextR = new Text("", 20, 640, 60, "BLACK1"); arena.addText(infoTextR);
-        infoTextL = new Text("", 20, 60, 60, "BLACK1"); arena.addText(infoTextL);
+
         // KLASK ARENA -------
         klaskArena = new KlaskArena(50, 100, 700, 350, "BLUE1", -4);
         hole1 = new Ball(700, 280, 60, "BLACK1");
@@ -151,5 +153,11 @@ public class Main {
     public static void freezeGame() {
         frozen = true;
         frozenCount = freezeTime;
+    }
+
+    public static void freezeGame(boolean untilPressed) {
+        frozen = true;
+        if (untilPressed) frozenCount = -1;
+        else frozenCount = freezeTime;
     }
 }

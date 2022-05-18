@@ -37,9 +37,9 @@ public class ScoreBoard extends Text {
             points1++;
             if (points1 >= 6) {
                 updateScore();
-                infoTextR.setText(" you won!"); infoTextR.setColour("GREEN1");
-                infoTextL.setText("you lost!"); infoTextL.setColour("RED1");
-                freezeGame();
+                iTextManager.won(1);
+                iTextManager.resetVisible(true);
+                freezeGame(true);
                 whoWon = 0;
             } else updateScore();
 
@@ -47,9 +47,9 @@ public class ScoreBoard extends Text {
             points2++;
             if (points2 >= 6) {
                 updateScore();
-                infoTextR.setText("you lost!"); infoTextR.setColour("RED1");
-                infoTextL.setText("you won!"); infoTextL.setColour("GREEN1");
-                freezeGame();
+                iTextManager.won(2);
+                iTextManager.resetVisible(true);
+                freezeGame(true);
                 whoWon = 0;
             } else updateScore();
         }

@@ -32,7 +32,7 @@ public class Player {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Player(int x, int y, String col, int which) {
         ball = new Ball(x, y, 40, col);
-        ball2 = new Ball(x, y+5, 40, "WHITE2");
+        ball2 = new Ball(x, y+5, 40, "GRAY1");
         rec = new Rectangle(x-7.5, y-45, 15, 40, col, 1);
         arena.addBall(ball2);
         arena.addBall(ball);
@@ -104,8 +104,14 @@ public class Player {
         attachedMagnets.add(newBall);
         arena.addBall(newBall);
         if (attachedMagnets.size() >= 2) {
-            if (index == 1) whoWon = 2;
-            else whoWon = 1;
+            if (index == 1) {
+                iTextManager.message(2);
+                whoWon = 2;
+            }
+            else {
+                iTextManager.message(1);
+                whoWon = 1;
+            }
             freezeGame();
         }
     }

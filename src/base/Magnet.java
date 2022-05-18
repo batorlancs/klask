@@ -47,6 +47,20 @@ public class Magnet extends Ball {
     }
 
     //---------------------------------------------------------------------------------------------------------------
+    // move the magnet in the given direction (used for player attracting the magnet)
+    //---------------------------------------------------------------------------------------------------------------
+    public void move(double dx, double dy, double range) {
+        if (isAttached) return; // if it is attached or in a hole don't move
+        double attractionSpeed = 0.0000006 * (60 - range);
+        // bounce off the walls of the arena
+        if (getXPosition()-15 <= klaskArena.getXPosition()) setDx(Math.abs(getDx()));
+        if (getXPosition()+15 >= klaskArena.getEndXPosition()) setDx(-Math.abs(getDx()));
+        if (getYPosition()-15 <= klaskArena.getYPosition()) setDy(Math.abs(getDx()));
+        if (getYPosition()+15 >= klaskArena.getEndYPosition()) setDy(-Math.abs(getDy()));
+        super.move(dx*attractionSpeed*deltaTime, dy*attractionSpeed*deltaTime);
+    }
+
+    //---------------------------------------------------------------------------------------------------------------
     // set direction and speed of the magnet
     //---------------------------------------------------------------------------------------------------------------
     public void setForce(double dx, double dy, double speed) {

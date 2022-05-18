@@ -34,6 +34,7 @@ public class CollisionTracker {
                 p1.setYPosition(hole1.getYPosition());
                 freezeGame();
                 whoWon = 2;
+                iTextManager.message(whoWon);
             }
             p1.setInHole(true);
         }
@@ -46,6 +47,7 @@ public class CollisionTracker {
                 p2.setYPosition(hole2.getYPosition());
                 freezeGame();
                 whoWon = 1;
+                iTextManager.message(whoWon);
             }
             p2.setInHole(true);
         }
@@ -57,6 +59,7 @@ public class CollisionTracker {
                 gball.move(calcVectorDia(hole1, gball.getXPosition(), gball.getYPosition(), 0, gball.getDiameter()), calcVectorDia(hole1, gball.getXPosition(), gball.getYPosition(), 1, gball.getDiameter()));
                 freezeGame();
                 whoWon = 2;
+                iTextManager.message(whoWon);
             }
             gball.setInHole(1);
         }
@@ -68,6 +71,7 @@ public class CollisionTracker {
                 gball.move(calcVectorDia(hole2, gball.getXPosition(), gball.getYPosition(), 0, gball.getDiameter()), calcVectorDia(hole2, gball.getXPosition(), gball.getYPosition(), 1, gball.getDiameter()));
                 freezeGame();
                 whoWon = 1;
+                iTextManager.message(whoWon);
             }
             gball.setInHole(2);
         }
@@ -80,6 +84,18 @@ public class CollisionTracker {
                 if (isInRange(gball, a.getXPosition(), a.getYPosition(), a.getDiameter())) {
                     a.setForce(calcVector(gball, a, 0), calcVector(gball, a, 1), gball.getSpeed());
                 }
+                // magnet is near player 1 (magnet attraction)
+                //---------------------------------------------------------------------------------------------------------------
+                if (isInRange(p1, 60, a)) {
+                    a.move(calcVector(a, p1, 0), calcVector(a, p1, 1), calcVectorAbs(a, p1));
+                }
+
+                // magnet is near player 2 (magnet attraction)
+                //---------------------------------------------------------------------------------------------------------------
+                if (isInRange(p2, 60, a)) {
+                    a.move(calcVector(a, p2, 0), calcVector(a, p2, 1), calcVectorAbs(a, p2));
+                }
+
                 // manet collides with player 1
                 //---------------------------------------------------------------------------------------------------------------
                 if (isInRange(p1, a.getXPosition(), a.getYPosition(), a.getDiameter())) {
@@ -117,6 +133,20 @@ public class CollisionTracker {
     //---------------------------------------------------------------------------------------------------------------
     // calculate the x or y (int which) axis of the vector between two points
     //---------------------------------------------------------------------------------------------------------------
+    // calculate the absolute range between A and B points
+    public static double calcVectorAbs(Ball ball, Player player) {
+        double x = (player.getXPosition() - ball.getXPosition());
+        double y = (player.getYPosition() - ball.getYPosition());
+        return Math.sqrt(x*x + y*y);
+    }
+    // between two points
+    public static double calcVector(Ball ball, Player player, int which) {
+        double x = (player.getXPosition() - ball.getXPosition());
+        double y = (player.getYPosition() - ball.getYPosition());
+        double r = Math.sqrt(x*x + y*y);
+        if (which == 0) return x*(1/r);
+        return y*(1/r);
+    }
     // hole and a circle
     public static double calcVectorDia(Ball hole, double x, double y, int which, double dia) {
         double xx = (hole.getXPosition() - x);
@@ -126,8 +156,8 @@ public class CollisionTracker {
         return yy*((30-dia/2)/r);
     }
 
-    // player and the game ball
-    private double calcVector(Player player, GameBall gameBall, int which) {
+    // player to a ball
+    private double calcVector(Player player, Ball gameBall, int which) {
         double x = (gameBall.getXPosition() - player.getXPosition());
         double y = (gameBall.getYPosition() - player.getYPosition());
         double r = Math.sqrt(x*x + y*y);
@@ -166,6 +196,13 @@ public class CollisionTracker {
         double xx = Math.abs(player.getXPosition() - x);
         double yy = Math.abs(player.getYPosition() - y);
         return Math.sqrt(xx * xx + yy * yy) < (player.getDiameter()/2 + dia/2);
+    }
+
+    // player with range and a ball
+    private boolean isInRange(Player player, double playerDia, Ball ball) {
+        double xx = Math.abs(player.getXPosition() - ball.getXPosition());
+        double yy = Math.abs(player.getYPosition() - ball.getYPosition());
+        return Math.sqrt(xx * xx + yy * yy) < (playerDia);
     }
 
     // game ball and circle
