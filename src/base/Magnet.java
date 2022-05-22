@@ -51,7 +51,7 @@ public class Magnet extends Ball {
     //---------------------------------------------------------------------------------------------------------------
     public void move(double dx, double dy, double range) {
         if (isAttached) return; // if it is attached or in a hole don't move
-        double attractionSpeed = 0.0000006 * (60 - range);
+        double attractionSpeed = 0.0000006 * (60 - range); // range: the closer the magnet is to the player the faster
         // bounce off the walls of the arena
         if (getXPosition()-15 <= klaskArena.getXPosition()) setDx(Math.abs(getDx()));
         if (getXPosition()+15 >= klaskArena.getEndXPosition()) setDx(-Math.abs(getDx()));
